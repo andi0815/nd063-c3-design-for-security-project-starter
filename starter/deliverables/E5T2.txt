@@ -1,13 +1,24 @@
 # Identify tools that will allow you to do the following:
 
 ## Scan infrastructure as code templates
+Selection of possible tools:
+* Regula
+* Checkov
+* tflint
 
 ### Example vulnerability
+* unrestricted access to port 22
 
 ##Scan AMI’s or containers for OS vulnerabilities
+* https://anchore.com/
+* https://github.com/quay/clair
 
 ### Example vulnerability
+CVE-2017-12424
 
 ##Scan an AWS environment for cloud configuration vulnerabilities
+* AWS config
+* AWS inspect
 
 ### Example vulnerability
+EC2 instance is reachable from the internet

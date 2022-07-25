@@ -9,9 +9,16 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Join [ "-", [ "cand-c3-secret-recipes", !Ref 'AWS::AccountId' ] ]
-    # BucketEncryption:
-    #     ServerSideEncryptionConfiguration:
-    #       - ServerSideEncryptionByDefault: True
+      BucketEncryption: {
+          ServerSideEncryptionConfiguration: [
+              {
+                  ServerSideEncryptionByDefault: {
+                      SSEAlgorithm: "aws:kms",
+                      KMSMasterKeyID: "KMS-KEY-ARN"
+                  }
+              }
+          ]
+      }
   S3BucketVPCFlowLogs:
       Type: AWS::S3::Bucket
       Properties:

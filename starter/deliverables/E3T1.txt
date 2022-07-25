@@ -1,0 +1,10 @@
+# Describe GuardDuty findings that were detected related to the brute force attack
+
+Guard Duty did not show any findings up to now, but the EC2 instance was forcefully shut down.
+
+# Research the AWS Guard Duty documentation page and explain how GuardDuty may have detected this attack - i.e. what was its source of information.
+
+As source of information AWS GuardDuty uses: event logs, VPC Flow Logs and DNS log involving the following AWS resource types: IAM access keys, EC2 instances, S3 buckets, and Amazon EKS resources.
+
+To detect an attack, Gard Duty could make use of an increased amount of login failures @ IAM.
+Additionally, on EC2 level an increased amount of failed login attempts on port 22 (from the same source) could be determined.

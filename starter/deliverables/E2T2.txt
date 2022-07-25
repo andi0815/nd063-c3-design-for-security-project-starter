@@ -1,0 +1,45 @@
+Research and analyze which of the vulnerabilities appear to be related to the code that was deployed for the environment in this project.
+
+Bonus - provide recommendations on how to remediate the vulnerabilities.
+
+### Findings: AWS Config
+Non-Compliant rules
+* Load Balancer (c1-web-service-alb):
+    * securityhub-alb-http-to-https-redirection-check-ec665e39 -> Enable HTTP to HTTPS redirection to prevent from unencrypted traffic
+    * securityhub-elb-deletion-protection-enabled-110a44d1 -> set deletion_protection.enabled to true
+    * securityhub-alb-http-drop-invalid-header-enabled-d4a206cc -> set routing.http.drop_invalid_header_fields.enabled to true to disallow unexpected headers
+    * securityhub-elb-logging-enabled-d73cf827securityhub-elb-logging-enabled-d73cf827 -> set access_logs.s3.enabled to true
+* WebApp Server:
+    * securityhub-restricted-ssh-d8fcfb49 -> restrict source IP range for SSH access
+    * securityhub-restricted-rdp-74c11f70 -> restrict source IP range for RDP access
+    * securityhub-vpc-sg-restricted-common-ports-ca0a831f -> restrict access to unnecessary high-risk ports
+    * securityhub-vpc-sg-open-only-to-authorized-ports-c4e17df6 -> restrict access to any ports besides 80 & 443
+    * securityhub-nacl-no-unrestricted-ssh-rdp-93b72ce6 -> restrict access to default ports for SSH/RDP ingress traffic
+    * securityhub-ec2-instance-managed-by-ssm-908a8a9f ->  enable EC2 instances management by AWS Systems Manager
+    * securityhub-ec2-imdsv2-check-917cabd8 -> configure instance metadata version with Instance Metadata Service Version 2 (IMDSv2)
+    * securityhub-ec2-instance-no-public-ip-e8f5ccff -> assign EC2 instance only non-public IP addresses
+* S3 Buckets
+    * securityhub-s3-event-notifications-enabled-49ed5a4e -> Enable event notifications
+    * securityhub-s3-bucket-logging-enabled-c542e662 -> enable server access logging
+    * securityhub-s3-bucket-ssl-requests-only-41df07db -> enforce SSL
+    * securityhub-s3-bucket-level-public-access-prohibited-5a6b659d -> apply bucket level public access blocks (no direct access from the internet)
+    * securityhub-s3-bucket-server-side-encryption-enabled-6aa85b06 -> enable default encryption (server-side)
+    * securityhub-s3-lifecycle-policy-check-ba2db82b -> configure a lifecycle policy
+* PublicSubnet1:
+    * securityhub-subnet-auto-assign-public-ip-disabled-2b316e46
+
+### Findings AWS Inspector
+* HIGH:         Web Service Instance - C3   has all ports open                              -> restrict open ports to 80 & 443
+* MEDIUM:       Attack Instance - C3        has port 22 reachable from the Internet GW      -> this is our attacker, so I guess this is fine ;)
+* MEDIUM:       Web Service Instance - C3   has port 22 reachable from the Internet GW      -> The instance must be moved into a private subnet
+* LOW:          Web Service Instance - C3   has port 22 reachable from the Internet GW      -> The instance must be moved into a private subnet
+* INFORMATION:  Web Service Instance - C3   has port 5000 reachable from the Internet GW    -> The instance must be moved into a private subnet
+
+### Findings SecruityHub
+  Basically, it's again the same findings as shown in AWS Config, but also nicely presented and sorted by severity.
+  Measures are elaborated AWS Config.
+
+Most important actions to take:
+* Run EC2 instance in a private subnet (no direct internet access)
+* Restrict access to high risk ports, such as 22 and RDP
+* Encrypt S3 and disallow internet access

@@ -1,0 +1,12 @@
+# Identify 2-3 changes that can be made to our environment to prevent an ssh brute force attack from the internet.
+
+Webserver:
+* To prevent SSH access, it must be moved into the private subnet
+* We can restrict the IP range that is allowed to access port 22
+* Disable login via password
+
+# Neither instance should have had access to the secret recipes bucket, in the even that instance API credentials were compromised how could we have prevented access to sensitive data.
+S3:
+* The data should have been encrypted. If it was, the attacker would be able to dowload it, but he would not be able to read it.
+* Public access should be blocked
+* The access to the S3 bucket should have been protected with a policy that only allows acces by certain security groups

@@ -4,7 +4,7 @@
 Selection of possible tools:
 * Regula
 * Checkov
-* tflint
+* https://github.com/aws-cloudformation/cloudformation-guard
 
 ### Example vulnerability
 * unrestricted access to port 22

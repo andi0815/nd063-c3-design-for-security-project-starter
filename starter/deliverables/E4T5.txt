@@ -1,0 +1,5 @@
+# Brainstorm and list additional hardening suggestions aside from those implemented that would protect the data in this environment.
+
+Addtitional hardening measures would be:
+* Move the WebServer into the private subnet
+* Disallow any public access to the S3 Buckets

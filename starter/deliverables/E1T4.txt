@@ -1,8 +1,8 @@
 Based on the architecture diagram, and the steps you have taken so far to upload data and access the application web service, identify at least 2 obvious poor practices as it relates to security.  Include justification.
 
 # Poor practice 1
-Only entrypoints to the Application infrastructure that need to face the internet should be exposed and put into the public subnet. In this case only the Load Balancer should reside the in the public subnet.
-
+Only entrypoints to the Application infrastructure that need to face the internet should be exposed and put into the public subnet.
+In this case only the Load Balancer should reside the in the public subnet.
 All other resources - in our case the 'Web Service Instance' - should reside in a private subnet.
 
 Furthermore the access from the public subnet to the private subnet should be hardened by security
@@ -10,5 +10,6 @@ groups that only allow incoming traffic from designated sources (e.g. from Applo
 
 # Poor practice 2
 Do not make the S3 buckets publicly available, if it can be avoided.
-While it may be OK to expose read access for the free recipies to the internet, direct access to the secret recipies from the internet must be prevented by e.g. restricting Access Points to private VPCs or ones that are only accessible from the hybrid cloud network.
+While it may be OK to expose read access for the free recipies to the internet, direct access to the secret recipies from the internet
+must be prevented by e.g. restricting Access Points to private VPCs or ones that are only accessible from the hybrid cloud network.
 The S3 bucket for secret recipes should also be protected with ACL or Object Ownership to allow a more fine grained access management on role level.
